@@ -8,6 +8,14 @@ class LucidShopify::Session < LucidClient::Session
     super( options )
   end
 
+  # +shop+ must implement both +#uri+ and +#token+.
+  #
+  def self.for_shop( shop, options = {} )
+    options.merge!( :uri => shop.uri, :token => shop.token )
+
+    new( options )
+  end
+
   private
 
   def _middleware
