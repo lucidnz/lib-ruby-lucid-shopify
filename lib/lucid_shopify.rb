@@ -17,3 +17,6 @@ end
 require 'lucid_shopify/session'
 require 'lucid_shopify/invalid_token_error'
 require 'lucid_shopify/authenticate'
+
+require 'lucid_shopify/api/collection_api'
+require 'lucid_shopify/api/product_api'
