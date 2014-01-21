@@ -1,6 +1,8 @@
+require 'lucid_client'
+
 module LucidShopify
 
-  # ...
+  extend LucidClient::Env
 
 end
 
@@ -14,3 +16,4 @@ end
 
 require 'lucid_shopify/session'
 require 'lucid_shopify/invalid_token_error'
+require 'lucid_shopify/authenticate'
