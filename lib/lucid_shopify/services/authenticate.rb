@@ -33,7 +33,7 @@ module LucidShopify
       @scope       = options[:scope] || 'read_products'
 
       %i{ api_key secret callback_uri }.each do |var|
-        self.send  "#{var}=", options[var] || LucidShopify.client_env( var )
+        self.send "#{var}=", options[var] || LucidShopify.client_env( var )
       end
     end
 
