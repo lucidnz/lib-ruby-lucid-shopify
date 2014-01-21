@@ -13,7 +13,6 @@ module LucidShopify
       all_pages( pages, params ) unless pages == 0
     end
 
-
     # Returns all products in the given collection.
     #
     def in_collection( collection_id )
