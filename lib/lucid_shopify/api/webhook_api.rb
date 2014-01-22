@@ -56,7 +56,7 @@ module LucidShopify
         return uri
       end
 
-      raise 'WebhookAPI requires config[:webhook_uri]'
+      raise 'WebhookAPI requires LucidShopify.config[:webhook_uri]'
     end
 
     def _fields
