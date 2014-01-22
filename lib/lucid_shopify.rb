@@ -19,5 +19,6 @@ require 'lucid_shopify/invalid_token_error'
 require 'lucid_shopify/services/authenticate'
 require 'lucid_shopify/policies/valid_webhook'
 
+require 'lucid_shopify/api/shop_api'
 require 'lucid_shopify/api/collection_api'
 require 'lucid_shopify/api/product_api'

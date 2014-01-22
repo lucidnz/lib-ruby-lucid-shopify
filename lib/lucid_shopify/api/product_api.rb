@@ -3,12 +3,9 @@ module LucidShopify
 
     include LucidClient::API
 
-    # Expects model +Product+ implementing +LucidClient::Model+. Returns all
-    # Products matching +params+.
-    #
     def all( params = {} )
-      params.merge!( default_params )
-      pages = page_count( params )
+      params = _default_params.merge( params )
+      pages  = page_count( params )
 
       all_pages( pages, params ) unless pages == 0
     end
@@ -22,12 +19,10 @@ module LucidShopify
     private
 
     def all_pages( pages, params )
-      r = ( 1..pages ).inject( [] ) do |products, page|
-        product_params  = params.merge( :page => page )
-        products       += session.get_resource( 'products', product_params )
+      ( 1..pages ).inject( [] ) do |products, page|
+        params    = params.merge( :page => page )
+        products += session.get_resource( 'products', params )
       end
-
-      LucidClient::Resource.map( Product, r )
     end
 
     # Get the total number of products matching +params+ and divide by the
@@ -42,8 +37,8 @@ module LucidShopify
       ( products_count / 250.0 ).ceil
     end
 
-    def default_params
-      published.merge( :fields => Product.fields, :limit => 250 )
+    def _default_params
+      super.merge( published ).merge( :limit => 250 )
     end
 
     def published
