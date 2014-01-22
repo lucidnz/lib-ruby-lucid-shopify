@@ -10,7 +10,49 @@ It is designed around my own workflows and experiences and is not intended to
 cover every possible scenario.
 
 
-### Examples
+Examples
+--------
+
+### Authentication
+
+Authentication is handled by `LucidShopify::Authenticate`. All you need is
+the shop handle/URI. See the source documentation for details.
+
+
+### Billing
+
+Billing requires implementation of a `plan` interface responding to `#handle`
+and `#price`. For example:
+
+    class Plan
+
+      attr_reader :plan, :price
+
+      def initialize( plan, price )
+        @plan, @price = plan, price
+      end
+
+    end
+
+With this, you can create a recurring application charge with `#subscribe`.
+If successful, this will return a confirmation URI with which to redirect the
+shop owner so they may accept of decline a charge. Ensure that you've set
+`:billing_uri` in `LucidShopify.config` as this is where the shop owner will
+return to your app.
+
+    confirmation_uri = billing_api.subscribe( plan )
+
+When the user returns, the request params should include `id`, which you
+should pass to `#process_subscription`. If the shop owner accepted, this will
+activate the charge. If the shop owner declined, this will return `nil`.
+
+    billing_api.process_subscription( charge_id )
+
+To unsubscribe, pass the `charge_id` to `#unsubscribe` (so keep track of
+that `id`).
+
+
+### Resource Mappings
 
 Generally, interfaces to remote resources will be used with resource mappings
 which are provided by `lucid_client`. The following example illustrates how
@@ -45,3 +87,13 @@ Then we subclass the API and override the `#all` and `#_fields` methods:
       end
 
     end
+
+
+### Webhook Verification
+
+When handling webhook requests, you'll almost always want to verify the source
+of the request. This can be done with `LucidShopify::Policies::ValidWebhook`
+which checks the request signature to ensure that the request originated from
+Shopify.
+
+    LucidShopify::Policies::ValidWebhook.new( request ).valid?
