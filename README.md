@@ -1,17 +1,20 @@
 lucid_shopify
 =============
 
-`lucid_shopify` is an interface to the Shopify API providing authentication,
-validation and a small subset of API calls. It is designed with extension in
-mind and intended as a base for future projects.
+`lucid_shopify` provides basic interfaces to the Shopify API including
+authentication, validation, webhooks, billing and a small subset of common API
+calls. Each interface is designed for extension and provides only a base from
+which to start.
 
-It is quite opinionated and built around my own workflow.
+It is designed around my own workflows and experiences and is not intended to
+cover every possible scenario.
 
 
 ### Examples
 
-Generally, this will be used with resource mappings. The following example
-illustrates how we might achieve this.
+Generally, interfaces to remote resources will be used with resource mappings
+which are provided by `lucid_client`. The following example illustrates how
+this might be achieved.
 
 First we implement a model with the `LucidClient::Model` interface:
 
