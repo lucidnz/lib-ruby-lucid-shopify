@@ -6,6 +6,7 @@ module LucidShopify
 
 end
 
+require 'lucid_shopify/engine'
 require 'lucid_shopify/logging'
 
 middleware = File.dirname( __FILE__ ) + '/lucid_shopify/middleware/*.rb'

@@ -7,7 +7,9 @@ module LucidShopify
     def all( params = {} )
       params = _default_params.merge( params )
 
-      session.get_resource( 'webhooks', params )
+      r = session.get_resource( 'webhooks', params )
+
+      represent_each r
     end
 
     def unset( webhook_id )
@@ -59,8 +61,8 @@ module LucidShopify
       raise 'WebhookAPI requires LucidShopify.config[:webhook_uri]'
     end
 
-    def _fields
-      'id,address,topic'
+    def _model
+      LucidShopify.config[:webhook_model]
     end
 
   end

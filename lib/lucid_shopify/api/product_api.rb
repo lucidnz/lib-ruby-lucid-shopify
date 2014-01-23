@@ -7,7 +7,9 @@ module LucidShopify
       params = _default_params.merge( params )
       pages  = page_count( params )
 
-      all_pages( pages, params ) unless pages == 0
+      r = all_pages( pages, params ) unless pages == 0
+
+      represent_each r
     end
 
     # Returns all products in the given collection.
@@ -43,6 +45,10 @@ module LucidShopify
 
     def published
       { :published_status => 'published' }
+    end
+
+    def _model
+      LucidShopify.config[:product_model]
     end
 
   end

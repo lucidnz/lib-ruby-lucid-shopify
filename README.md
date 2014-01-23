@@ -62,11 +62,9 @@ First we implement a model with the `LucidClient::Model` interface:
 
     class Product
 
-      extend LucidClient::Model
+      include LucidClient::Model
 
-      attr_accessor :name
-
-      def self.resource_mappings
+      map_resources do
         { :name => 'title', :description => 'body_html' }
       end
 
@@ -77,16 +75,22 @@ Then we subclass the API and override the `#all` and `#_fields` methods:
     class ProductAPI < LucidShopify::ProductAPI
 
       def all( params = {} )
-        represent_each ::Product, super( params )
+        represent_each super( params )
       end
 
       private
 
-      def _fields
-        ::Product.fields
+      def _model
+        ::Product
       end
 
     end
+
+Actually ... this second step is no longer necessary (but still serves as a
+nice example of wrapping the calls in subclasses) and now all that is needed
+is to set `config[:product_model]`:
+
+    LucidShopify.config[:product_model] = ::Product
 
 
 ### Webhook Verification

@@ -5,7 +5,15 @@ module LucidShopify
 
     def meta( params = {} )
       params = _default_params.merge( params )
-      session.get_resource( 'shop', params  )
+      r      = session.get_resource( 'shop', params  )
+
+      represent r
+    end
+
+    private
+
+    def _model
+      LucidShopify.config[:shop_model]
     end
 
   end
