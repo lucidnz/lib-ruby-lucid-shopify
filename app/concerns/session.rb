@@ -35,10 +35,25 @@ module LucidShopify::Concerns
     end
 
     def shop_model
-      if model = LucidShopify.config[:shop_model]
-        model
-      else
+      unless model = LucidShopify.config[:shop_model]
         raise 'LucidShopify.config[:shop_model] should be set'
+      end
+
+      ensure_shop_interface!( model )
+      model
+    end
+
+    # Ensure that model implements the required interface.
+    #
+    def ensure_shop_interface!( model )
+      unless shop_interface?( model )
+        raise "#{model} does not implement the Shop interface"
+      end
+    end
+
+    def shop_interface?( model )
+      %i{ uri token find_by }.inject( true ) do |bool, method|
+        bool && model.respond_to?( method )
       end
     end
 
