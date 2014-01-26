@@ -18,17 +18,25 @@ module LucidShopify
       all( :collection_id => collection_id )
     end
 
+    # Returns all products on a given page.
+    #
+    def page( page, params = {} )
+      params = _default_params.merge( params )
+      params = params.merge( :page => page )
+
+      session.get_resource( 'products', params )
+    end
+
     private
 
     def all_pages( pages, params )
       ( 1..pages ).inject( [] ) do |products, page|
-        params    = params.merge( :page => page )
-        products += session.get_resource( 'products', params )
+        products += page( page, params )
       end
     end
 
     # Get the total number of products matching +params+ and divide by the
-    # limit of 250.
+    # given limit (defaults to 50 if none given).
     #
     def page_count( params = published )
       params.dup.select! do |k, v|
@@ -36,7 +44,7 @@ module LucidShopify
       end
 
       products_count = session.get_resource( 'products/count', params )
-      ( products_count / 250.0 ).ceil
+      ( products_count / params[:limit].to_f || 50.0 ).ceil
     end
 
     def _default_params
