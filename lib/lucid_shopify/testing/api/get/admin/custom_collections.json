@@ -1,0 +1,19 @@
+{
+  "custom_collections": [
+    {
+      "body_html": "<p>The best selling ipod ever</p>",
+      "handle": "ipods",
+      "id": 841564295,
+      "published_at": "2008-02-01T19:00:00-05:00",
+      "published_scope": "global",
+      "sort_order": "manual",
+      "template_suffix": null,
+      "title": "IPods",
+      "updated_at": "2008-02-01T19:00:00-05:00",
+      "image": {
+        "created_at": "2014-01-24T16:29:01-05:00",
+        "src": "http://cdn.shopify.com/s/files/1/0006/9093/3842/collections/ipod_nano_8gb.jpg?v=1390598941"
+      }
+    }
+  ]
+}
