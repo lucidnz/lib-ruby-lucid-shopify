@@ -1,12 +1,5 @@
-module LucidShopify
-
-  # Usage of this interface requires a +plan+ object which implements the
-  # interface +#handle+ and +#price+.
-  #
-  # Currently the only method that requires this is +#subscribe+, so this may
-  # change and a more generic charge creation method added.
-  #
-  class BillingAPI
+module LucidShopify::Billing
+  class API
 
     include LucidClient::API
 

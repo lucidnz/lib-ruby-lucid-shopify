@@ -7,6 +7,12 @@ if defined?( ::Rails )
       Dir.glob( config.root.join 'app/concerns/**/*.rb' ).each do |f|
         require_dependency f
       end
+
+      LucidShopify.config[:plans_file] ||= plans_file
+    end
+
+    def plans_file
+      ::Rails.application.root.join( 'config/plans.yml' )
     end
 
   end

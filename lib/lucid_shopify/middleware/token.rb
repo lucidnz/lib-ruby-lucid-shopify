@@ -15,7 +15,7 @@ module LucidShopify::Middleware
           msg = "Shopify rejected the token"
           log_error msg
 
-          raise LucidShopify::InvalidTokenError, msg
+          raise LucidShopify::Exceptions::InvalidToken, msg
         end
       end
     end
