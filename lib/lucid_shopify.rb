@@ -31,3 +31,4 @@ require 'lucid_shopify/api/billing_api'
 ### Testing
 
 require 'lucid_shopify/testing/connection'
+require 'lucid_shopify/testing/session'
