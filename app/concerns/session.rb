@@ -69,9 +69,11 @@ module LucidShopify::Concerns
     end
 
     def shop_interface?( model )
-      %i{ uri token find_by }.inject( true ) do |bool, method|
-        bool && model.respond_to?( method )
+      methods = %i{ uri token }.inject( true ) do |bool, method|
+        bool && model.instance_methods.include?( method )
       end
+
+      model.respond_to?( :find_by ) && methods
     end
 
   end
