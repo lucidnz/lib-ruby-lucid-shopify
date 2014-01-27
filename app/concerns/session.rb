@@ -24,6 +24,10 @@ module LucidShopify::Concerns
     # Call as controller before_filter.
     #
     def authorize
+      unless authenticate_path = LucidShopify.config[:authenticate_path]
+        raise 'LucidShopify.config[:authenticate_path] is unset'
+      end
+
       redirect_to authenticate_path unless current_shop
     end
 
