@@ -19,16 +19,23 @@ module LucidShopify::Concerns
       session['shop_uri'] = shop.uri
     end
 
-    private
-
-    # Call as controller before_filter.
+    # Call as controller before_filter. Requires named route for
+    # +shopify_authenticate_path+.
     #
     def authorize
-      unless authenticate_path = LucidShopify.config[:authenticate_path]
-        raise 'LucidShopify.config[:authenticate_path] is unset'
-      end
+      redirect_to application_authenticate_path unless current_shop
+    end
 
-      redirect_to authenticate_path unless current_shop
+    private
+
+    def application_authenticate_path
+      config_authenticate_path || main_app.shopify_authenticate_path
+    rescue NoMethodError
+      raise 'Authentication requires named route shopify_authentication_path'
+    end
+
+    def config_authenticate_path
+      LucidShopify.config[:authenticate_path]
     end
 
     # Ensures the shop actually has a token, otherwise we'll want to
