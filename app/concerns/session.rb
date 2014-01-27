@@ -19,6 +19,12 @@ module LucidShopify::Concerns
       session['shop_uri'] = shop.uri
     end
 
+    def unset_current_shop
+      if current_shop || session['shop_uri']
+        session['shop_uri'] = nil
+      end
+    end
+
     # Call as controller before_filter. Requires named route for
     # +shopify_authenticate_path+.
     #
