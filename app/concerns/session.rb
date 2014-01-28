@@ -2,7 +2,6 @@ module LucidShopify::Concerns
   module Session
 
     extend  ActiveSupport::Concern
-    include LucidClient::RailsCheck
 
     included do
       helper_method :current_shop
@@ -52,31 +51,15 @@ module LucidShopify::Concerns
       shop if shop && shop.token
     end
 
+    # The shop model should implement +find_by+ and attributes +uri+ and
+    # +token+.
+    #
     def shop_model
       unless model = LucidShopify.config[:shop_model]
         raise 'LucidShopify.config[:shop_model] should be set'
       end
 
-      ensure_shop_interface!( model )
       model
-    end
-
-    # Ensure that model implements the required interface.
-    #
-    def ensure_shop_interface!( model )
-      unless shop_interface?( model )
-        raise "#{model} does not implement the Shop interface"
-      end
-    end
-
-    def shop_interface?( model )
-      attrs = active_record?( model ) ? :column_names : :instance_methods
-
-      methods = %w{ uri token }.inject( true ) do |bool, method|
-        bool && model.send( attrs ).include?( method )
-      end
-
-      model.respond_to?( :find_by ) && methods
     end
 
   end
