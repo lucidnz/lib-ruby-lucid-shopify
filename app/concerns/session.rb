@@ -1,7 +1,8 @@
 module LucidShopify::Concerns
   module Session
 
-    extend ActiveSupport::Concern
+    extend  ActiveSupport::Concern
+    include LucidClient::RailsCheck
 
     included do
       helper_method :current_shop
@@ -69,8 +70,10 @@ module LucidShopify::Concerns
     end
 
     def shop_interface?( model )
-      methods = %i{ uri token }.inject( true ) do |bool, method|
-        bool && model.instance_methods.include?( method )
+      attrs = active_record?( model ) ? :column_names : :instance_methods
+
+      methods = %w{ uri token }.inject( true ) do |bool, method|
+        bool && model.send( attrs ).include?( method )
       end
 
       model.respond_to?( :find_by ) && methods
