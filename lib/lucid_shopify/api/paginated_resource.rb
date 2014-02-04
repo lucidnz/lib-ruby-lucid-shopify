@@ -1,6 +1,8 @@
 module LucidShopify
   module PaginatedResource
 
+    include LucidClient::Asynchronous
+
     def all( params = {} )
       params = _default_params.merge( params )
       pages  = page_count( params )
@@ -22,9 +24,11 @@ module LucidShopify
     private
 
     def all_pages( pages, params )
-      ( 1..pages ).inject( [] ) do |r, page|
-        r += page( page, params )
+      pages = async_map( 1..pages ) do |page|
+        page( page, params )
       end
+
+      pages.flatten
     end
 
     # Get the total resource count matching +params+ and divide by the given
