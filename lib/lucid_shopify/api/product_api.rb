@@ -7,9 +7,7 @@ module LucidShopify
       params = _default_params.merge( params )
       pages  = page_count( params )
 
-      r = all_pages( pages, params ) unless pages == 0
-
-      represent_each r
+      all_pages( pages, params ) unless pages == 0
     end
 
     # Returns all products in the given collection.
@@ -24,7 +22,9 @@ module LucidShopify
       params = _default_params.merge( params )
       params = params.merge( :page => page )
 
-      session.get_resource( 'products', params )
+      r = session.get_resource( 'products', params )
+
+      represent_each r
     end
 
     private
