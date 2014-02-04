@@ -39,7 +39,7 @@ module LucidShopify
     # given limit (defaults to 50 if none given).
     #
     def page_count( params = published )
-      params.dup.select! do |k, v|
+      params = params.select do |k, v|
         %i{ published_status collection_id }.include?( k )
       end
 
