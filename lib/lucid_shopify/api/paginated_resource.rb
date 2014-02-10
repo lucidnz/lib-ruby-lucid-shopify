@@ -1,7 +1,7 @@
 module LucidShopify
   module PaginatedResource
 
-    include LucidClient::Asynchronous
+    include LucidAsync::Mixin
 
     def all( params = {} )
       params = _default_params.merge( params )
