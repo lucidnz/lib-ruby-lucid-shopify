@@ -7,7 +7,7 @@ module LucidShopify
       params = _default_params.merge( params )
       pages  = page_count( params )
 
-      all_pages( pages, params ) unless pages == 0
+      pages > 0 ? all_pages( pages, params ) : []
     end
 
     # Returns all resources on a given page.
