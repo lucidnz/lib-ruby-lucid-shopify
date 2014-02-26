@@ -1,36 +1,31 @@
 module LucidShopify::Middleware
-  class CallLogger
+  class CallLogger < LucidClient::Middleware::Base
 
-    include LucidShopify::Logging
-
-    attr_reader :app
-
-    def initialize( app )
-      @app = app
-    end
+    # This class breaks in Faraday 0.9.0 (which breaks compatibility with
+    # just about everything by the sound of things).
 
     def call( env )
-      log_request( env )
+      _log_request( env )
 
       app.call( env ).on_complete do |env|
-        log_response( env )
+        _log_response( env )
       end
     end
 
     private
 
-    def log_request( env )
+    def _log_request( env )
       method, uri = env[:method].to_s.upcase, env[:url].to_s
 
       log "\e[36m%s \e[37m%s" % [ method, uri ]
     end
 
-    def log_response( env )
+    def _log_response( env )
       log "Response #{env[:response][:status]}"
-      log "Requests #{env[:response_headers][api_header]}"
+      log "Requests #{env[:response_headers][_api_header]}"
     end
 
-    def api_header
+    def _api_header
       'HTTP_X_SHOPIFY_SHOP_API_CALL_LIMIT'
     end
 
