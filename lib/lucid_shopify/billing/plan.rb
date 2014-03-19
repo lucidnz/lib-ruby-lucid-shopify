@@ -27,10 +27,6 @@ module LucidShopify::Billing
       list.map { |handle| for_handle( handle ) }
     end
 
-    def self.paid
-      all.select( &:paid? )
-    end
-
     def self.config
       unless plans_file = LucidShopify.config[:plans_file]
         raise 'LucidShopify.config[:plans_file] is unset'
@@ -47,12 +43,20 @@ module LucidShopify::Billing
       define_method( property ) { config[property] }
     end
 
-    alias_method :paid?, :paid if instance_methods.include?( :paid )
+    if instance_methods.include?( :paid )
+
+      alias_method :paid?, :paid
+
+      def self.paid
+        all.select( &:paid? )
+      end
+
+    end
 
     # Only supports a single currency format for the time being.
     #
     def price_text
-      '$%.2f' % price
+      price_format( price )
     end
 
     # Attempts to format price as "$10" rather than "$10.00".
@@ -60,8 +64,8 @@ module LucidShopify::Billing
     # To avoid potential danger scenario ... will return #price_text if the
     # price is not in fact an integer. We don't want prices misrepresented!
     #
-    def price_text_int
-      price % 1 == 0 ? "$#{price.to_i}" : price_text
+    def price_format( price )
+      price % 1 == 0 ? "$#{price.to_i}" : '$%.2f' % price
     end
 
     def to_s
