@@ -62,7 +62,7 @@ module LucidShopify
     end
 
     def _model
-      LucidShopify.config[:webhook_model]
+      LucidShopify.config[:webhook_model].call
     end
 
   end

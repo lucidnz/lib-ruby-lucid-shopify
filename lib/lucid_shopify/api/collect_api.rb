@@ -11,7 +11,7 @@ module LucidShopify
     private
 
     def _model
-      LucidShopify.config[:collect_model]
+      LucidShopify.config[:collect_model].call
     end
 
     def _resource

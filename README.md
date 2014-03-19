@@ -89,9 +89,9 @@ Then we subclass the API and override the `#all` and `#_fields` methods:
 
 Actually ... this second step is no longer necessary (but still serves as a
 nice example of wrapping the calls in subclasses) and now all that is needed
-is to set `config[:product_model]`:
+is to set `config[:product_model]` which expects a callable:
 
-    LucidShopify.config[:product_model] = ::Product
+    LucidShopify.config[:product_model] = -> { ::Product }
 
 
 ### Webhook Verification

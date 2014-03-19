@@ -25,7 +25,7 @@ module LucidShopify
     end
 
     def _model
-      LucidShopify.config[:collection_model]
+      LucidShopify.config[:collection_model].call
     end
 
   end

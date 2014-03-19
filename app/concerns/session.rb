@@ -55,11 +55,11 @@ module LucidShopify::Concerns
     # +token+.
     #
     def shop_model
-      unless model = LucidShopify.config[:shop_model]
-        raise 'LucidShopify.config[:shop_model] should be set'
+      unless ( model = LucidShopify.config[:shop_model] ).respond_to?( :call )
+        raise 'LucidShopify.config[:shop_model] expects callable'
       end
 
-      model
+      model.call
     end
 
   end

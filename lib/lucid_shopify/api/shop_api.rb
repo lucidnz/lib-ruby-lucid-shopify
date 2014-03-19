@@ -13,7 +13,7 @@ module LucidShopify
     private
 
     def _model
-      LucidShopify.config[:shop_model]
+      LucidShopify.config[:shop_model].call
     end
 
   end
