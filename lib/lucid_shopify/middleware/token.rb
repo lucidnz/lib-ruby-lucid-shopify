@@ -1,5 +1,5 @@
 module LucidShopify::Middleware
-  class Token < LucidClient::Middleware::Base
+  class Token < LucidShopify::Middleware::Base
 
     def call( env )
       app.call( env ).on_complete do |env|

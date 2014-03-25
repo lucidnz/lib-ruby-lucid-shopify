@@ -1,5 +1,5 @@
 module LucidShopify::Middleware
-  class CallLogger < LucidClient::Middleware::Base
+  class CallLogger < LucidShopify::Middleware::Base
 
     # This class breaks in Faraday 0.9.0 (which breaks compatibility with
     # just about everything by the sound of things).

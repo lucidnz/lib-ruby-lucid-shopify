@@ -1,5 +1,5 @@
 module LucidShopify::Middleware
-  class Graceful429 < LucidClient::Middleware::Base
+  class Graceful429 < LucidShopify::Middleware::Base
 
     # Try request, if it raises 429 then retry after a delay. Assumes that
     # Shopify will eventually send a non-429 response.
