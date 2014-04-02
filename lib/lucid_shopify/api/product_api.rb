@@ -5,7 +5,7 @@ module LucidShopify
     include LucidShopify::PaginatedResource
 
     def in_collection( collection_id, options = {} )
-      all( :collection_id => collection_id )
+      all options.merge( :collection_id => collection_id )
     end
 
     private
