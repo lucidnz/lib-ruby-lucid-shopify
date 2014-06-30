@@ -11,8 +11,12 @@ module LucidShopify::Policies
     end
 
     def valid?
-      signature            = request.headers['X-Shopify-Hmac-SHA256']
+      signature            = request.env['HTTP_X_SHOPIFY_HMAC_SHA256']
       calculate_signature == signature
+    end
+
+    def invalid?
+      !valid?
     end
 
     private
