@@ -26,8 +26,10 @@ module LucidShopify
 
     ### Initialization
 
-    def set( topic )
-      response = session.post_as_json 'webhooks', resource_for( topic )
+    def set( topic, options = {} )
+      resource = resource_for( topic, options )
+      response = session.post_as_json( 'webhooks', resource )
+
       response.status == 201
     end
 
@@ -43,11 +45,12 @@ module LucidShopify
 
     private
 
-    def resource_for( topic )
+    def resource_for( topic, options = {} )
       {
         :webhook => {
           :topic   => topic,
           :address => _webhook_uri,
+          :fields  => options.fetch( :fields, [] ),
           :format  => 'json'
         }
       }
