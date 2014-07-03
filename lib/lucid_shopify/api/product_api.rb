@@ -15,7 +15,7 @@ module LucidShopify
     end
 
     def _model
-      LucidShopify.config[:product_model].call
+      callable LucidShopify.config[:product_model]
     end
 
     def _resource
