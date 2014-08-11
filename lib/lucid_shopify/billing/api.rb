@@ -76,11 +76,11 @@ module LucidShopify::Billing
     # Shopify sends shop owners here after they accept or decline a charge.
     #
     def _billing_uri
-      if uri = LucidShopify.config[:billing_uri]
-        return uri
+      if ( uri = LucidShopify.config[:billing_uri] ).nil?
+        raise 'BillingAPI requires LucidShopify.config[:billing_uri]'
       end
 
-      raise 'BillingAPI requires LucidShopify.config[:billing_uri]'
+      uri
     end
 
     # Such a looong name ...

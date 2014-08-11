@@ -25,13 +25,9 @@ the shop handle/URI. See the source documentation for details.
 Billing requires implementation of a `plan` interface responding to `#handle`
 and `#price`. For example:
 
-    class Plan
+    class Plan < Struct.new( :handle, :price )
 
-      attr_reader :plan, :price
-
-      def initialize( plan, price )
-        @plan, @price = plan, price
-      end
+      # ...
 
     end
 

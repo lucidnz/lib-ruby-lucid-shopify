@@ -23,9 +23,13 @@ module LucidShopify::Policies
 
     def calculate_signature
       digest    = OpenSSL::Digest::SHA256.new
-      signature = OpenSSL::HMAC.digest( digest, secret, request.body.read )
+      signature = OpenSSL::HMAC.digest( digest, secret, read_request_body )
 
       Base64.encode64( signature ).strip
+    end
+
+    def read_request_body
+      ( io = request.body ).read.tap { io.rewind }
     end
 
     def secret
