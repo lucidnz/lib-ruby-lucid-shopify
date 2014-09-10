@@ -16,8 +16,8 @@ module LucidShopify
       delete( "webhooks/#{webhook_id}" )
     end
 
-    def unset_all
-      all = session.get_resource( 'webhooks', _unset_params )
+    def unset_all( params = {} )
+      all = session.get_resource( 'webhooks', _unset_params.merge( params ) )
 
       async_each( all ) do |webhook|
         unset( webhook['id'] )
