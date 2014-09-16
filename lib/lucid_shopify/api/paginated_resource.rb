@@ -21,6 +21,11 @@ module LucidShopify
       represent_each r
     end
 
+    def count( params = {} )
+      params = _default_params.merge( params )
+      session.get_resource( "#{_resource}/count", params )
+    end
+
     private
 
     def all_pages( pages, params )
@@ -35,7 +40,6 @@ module LucidShopify
     # limit (defaults to 50 if none given) per page.
     #
     def page_count( params )
-      count = session.get_resource( "#{_resource}/count", params )
       pages = count / params[:limit].to_f || 50.0
 
       pages.ceil
