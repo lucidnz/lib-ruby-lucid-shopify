@@ -10,7 +10,7 @@ module LucidShopify::Billing
     # Otherwise +nil+.
     #
     def subscribe( plan, options = {} )
-      options  = plan_to_charge( plan, options )
+      options  = plan_to_charge( plan ).merge( options )
       response = session.post_as_json( 'recurring_application_charges', options )
 
       if response.status == 201
@@ -54,8 +54,7 @@ module LucidShopify::Billing
         resource_type => {
           :name       => plan.handle,
           :price      => plan.price,
-          :return_url => _billing_uri,
-          :test       => options[:test] || false
+          :return_url => _billing_uri
         }
       }
     end
