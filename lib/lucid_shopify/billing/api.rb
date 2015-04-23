@@ -3,6 +3,9 @@ module LucidShopify::Billing
 
     include LucidClient::API
 
+    KEY  = :recurring_application_charge
+    PATH = KEY.to_s + 's'
+
     # Create a recurring application charge. If the charge was successfully
     # created, then this will return a +confirmation_url+ where the shop owner
     # may either accept or decline the charge.
@@ -11,7 +14,7 @@ module LucidShopify::Billing
     #
     def subscribe( plan, options = {} )
       options  = plan_to_charge( plan ).merge( options )
-      response = session.post_as_json( 'recurring_application_charges', options )
+      response = session.post_as_json( PATH, KEY => options )
 
       if response.status == 201
         session.parse_resource( response )['confirmation_url']
@@ -30,11 +33,11 @@ module LucidShopify::Billing
     end
 
     def unsubscribe( charge_id )
-      delete "recurring_application_charges/#{charge_id}"
+      delete "#{PATH}/#{charge_id}"
     end
 
     def get_charge( charge_id )
-      response = get "recurring_application_charges/#{charge_id}"
+      response = get "#{PATH}/#{charge_id}"
 
       if response.status == 200
         session.parse_resource( response )
@@ -51,11 +54,9 @@ module LucidShopify::Billing
 
     def plan_to_charge( plan, options = {} )
       {
-        resource_type => {
-          :name       => plan.handle,
-          :price      => plan.price,
-          :return_url => _billing_uri
-        }
+        :name       => plan.handle,
+        :price      => plan.price,
+        :return_url => _billing_uri
       }
     end
 
@@ -64,8 +65,7 @@ module LucidShopify::Billing
     #
     def activate_subscription( resource )
       id       = resource['id']
-      path     = "recurring_application_charges/#{id}/activate"
-      response = session.post_as_json path, resource_type => resource
+      response = session.post_as_json "#{PATH}/#{id}/activate", KEY => resource
 
       if response.status == 200
         resource['name']
@@ -80,12 +80,6 @@ module LucidShopify::Billing
       end
 
       uri
-    end
-
-    # Such a looong name ...
-    #
-    def resource_type
-      :recurring_application_charge
     end
 
   end
