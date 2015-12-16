@@ -97,7 +97,7 @@ module LucidShopify
     end
 
     def strip_myshopify_domain( shop_handle )
-      shop_handle.split( '.' ).first
+      shop_handle.split( '.' ).first || ''
     end
 
     # Clear out any annoying Rails keys polluting the params hash so they
