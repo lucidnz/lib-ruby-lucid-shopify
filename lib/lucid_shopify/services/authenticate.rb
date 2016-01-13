@@ -25,12 +25,13 @@ module LucidShopify
   #
   class Authenticate
 
-    attr_accessor *%i{ shop_handle scope api_key secret callback_uri token }
+    attr_accessor *%i{ shop_handle scope api_key secret callback_uri token redirect_uri }
 
     def initialize( shop_handle, options = {} )
-      @shop_handle = normalize_handle( shop_handle )
-      @token       = options[:token]
-      @scope       = options[:scope] || 'read_products'
+      @shop_handle  = normalize_handle( shop_handle )
+      @token        = options[:token]
+      @scope        = options[:scope] || 'read_products'
+      @redirect_uri = options[:redirect_uri]
 
       %i{ api_key secret callback_uri }.each do |var|
         self.send "#{var}=", options[var] || LucidShopify.client_env( var )
@@ -81,7 +82,7 @@ module LucidShopify
     # Redirect user to this path for authorization.
     #
     def code_uri
-      "#{auth_uri}?client_id=#{api_key}&scope=#{scope}"
+      "#{auth_uri}?client_id=#{api_key}&scope=#{scope}&redirect_uri=#{redirect_uri}"
     end
 
     private
