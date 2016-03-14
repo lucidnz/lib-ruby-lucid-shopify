@@ -31,6 +31,7 @@ require 'lucid_shopify/api/collection_api'
 require 'lucid_shopify/api/product_api'
 require 'lucid_shopify/api/collect_api'
 require 'lucid_shopify/api/customer_api'
+require 'lucid_shopify/api/order_api'
 require 'lucid_shopify/api/webhook_api'
 
 ### Billing API
