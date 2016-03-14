@@ -40,7 +40,7 @@ module LucidShopify
     # limit (defaults to 50 if none given) per page.
     #
     def page_count( params )
-      pages = count / params[:limit].to_f || 50.0
+      pages = count( params ) / params[:limit].to_f || 50.0
 
       pages.ceil
     end
