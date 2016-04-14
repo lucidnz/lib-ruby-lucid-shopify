@@ -57,7 +57,7 @@ module LucidShopify
     end
 
     def _unset_params
-      { :fields => 'id', :address => _webhook_uri }
+      { :fields => 'id' }
     end
 
     def _default_params
