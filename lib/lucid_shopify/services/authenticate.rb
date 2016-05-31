@@ -63,11 +63,12 @@ module LucidShopify
     def valid_signature?( params )
       sanitize_params_hash( params )
 
-      signature = params.delete( 'signature' )
-      sorted    = params.map { |k, v| "#{k}=#{v}" }.sort.join
-      expected  = Digest::MD5.hexdigest( secret + sorted )
+      hmac     = params.delete( 'hmac' )
+      msg      = params.map { |k, v| "#{k}=#{v}" }.sort.join( ?& )
+      digest   = OpenSSL::Digest.new( 'sha256' )
+      msg_hmac = OpenSSL::HMAC.hexdigest( digest, secret, msg )
 
-      signature == expected
+      msg_hmac == hmac
     end
 
     def uri
@@ -103,9 +104,11 @@ module LucidShopify
     # Clear out any annoying Rails keys polluting the params hash so they
     # don't interfere with the signature verification algorithm.
     #
+    # Also delete the deprecated "signature" param.
+    #
     def sanitize_params_hash( params )
       if defined?( ::Rails )
-        %w{ controller action }.each { |k| params.delete( k ) }
+        %w{ controller action signature }.each { |k| params.delete( k ) }
       end
     end
 
