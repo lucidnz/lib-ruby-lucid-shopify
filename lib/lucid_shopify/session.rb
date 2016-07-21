@@ -19,7 +19,7 @@ class LucidShopify::Session < LucidClient::Session
   private
 
   def _middleware
-    %i{ Graceful429 CallLogger Token }.map do |middleware|
+    %i{ Retry Graceful429 CallLogger Token }.map do |middleware|
       LucidShopify::Middleware.const_get( middleware )
     end
   end

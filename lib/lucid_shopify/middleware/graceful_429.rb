@@ -13,7 +13,6 @@ module LucidShopify::Middleware
             raise Shopify429Error
           end
         end
-
       rescue Shopify429Error
         delay = ( attempts += 1 ) ** 2
 
@@ -21,7 +20,6 @@ module LucidShopify::Middleware
 
         sleep delay
         retry
-
       end
     end
 
