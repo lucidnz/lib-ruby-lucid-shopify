@@ -1,6 +1,7 @@
 require 'faraday'
 require 'digest'
 require 'json'
+require 'uri'
 
 module LucidShopify
 
@@ -82,7 +83,9 @@ module LucidShopify
     # Redirect user to this path for authorization.
     #
     def code_uri
-      "#{auth_uri}?client_id=#{api_key}&scope=#{scope}"
+      redirect_uri = URI.encode_www_form_component(callback_uri)
+
+      "#{auth_uri}?client_id=#{api_key}&scope=#{scope}&redirect_uri=#{redirect_uri}"
     end
 
     private
