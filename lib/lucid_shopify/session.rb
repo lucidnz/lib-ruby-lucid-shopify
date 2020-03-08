@@ -30,11 +30,11 @@ class LucidShopify::Session < LucidClient::Session
   end
 
   def _request_path( path )
-    "/admin/#{normalize_path path}.json"
+    "/admin/api/#{LucidShopify.config.fetch :api_version, '2019-04'}/#{normalize_path path}.json"
   end
 
   def normalize_path( path )
-    path.sub( /^(\/admin)?\//, '' ).sub( /\.json$/, '' )
+    path.sub( /^\//, '' ).sub( /\.json$/, '' )
   end
 
 end
